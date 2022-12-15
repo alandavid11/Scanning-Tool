@@ -43,6 +43,7 @@ namespace Scanning_Tool
             label14.Hide();
             label15.Hide();
             TimeUpdater();
+            textBox2.Focus();
 
             DateTime horaMinuto;
             string primerTurno = "1er turno";
@@ -55,6 +56,7 @@ namespace Scanning_Tool
                 label16.Text = primerTurno;
                 primerHoraRev = "00:00:00";
                 segundaHoraRev = "17:59:00";
+                Console.WriteLine(horaMinuto);
             }
             else
             {
@@ -181,9 +183,9 @@ namespace Scanning_Tool
                         else if (result == "Repetido")
                         {
                             pictureBox9.Show();
-                            textBox3.SelectionStart = 0;
-                            textBox3.SelectionLength = textBox3.Text.Length;
                             label13.Show();
+                            textBox1.Enabled = false;
+                            textBox1.BackColor = Color.Gray;
                             label13.Text = "Este Shaft & Wheel ya fue registrado en la base de datos el " + existe.ToString() + "";
                             return;
                         }
@@ -457,6 +459,52 @@ namespace Scanning_Tool
             if (e.KeyCode == Keys.Enter)
             {
                 e.SuppressKeyPress = true;
+            }
+        }
+    }
+
+    // MARK - Poner placeholder en los textbox
+    class TxtHold: TextBox
+    {
+
+        public TxtHold()
+        {
+            this.Enter += new EventHandler(txt_Enter);
+            this.Leave += new EventHandler(txt_Leave);
+            base.ForeColor = Color.DimGray;
+
+        }
+
+        private string placeHolder;
+        [Description("Texto para el place holder")]
+        [Category("Alan Gloria Coding")]
+
+        public string PlaceHolder
+        {
+            get { return placeHolder; }
+            set { placeHolder = value; }
+        }
+
+        private void txt_Enter(object sender, EventArgs e)
+        {
+            TextBox txt = sender as TextBox;
+
+
+            if(txt.Text == placeHolder)
+            {
+                txt.Text = String.Empty;
+                txt.ForeColor = Color.Black;
+            }
+        }
+
+        private void txt_Leave(object sender, EventArgs e)
+        {
+            TextBox txt = sender as TextBox;
+
+            if(txt.Text == String.Empty)
+            {
+                txt.Text = placeHolder;
+                txt.ForeColor = Color.DimGray;
             }
         }
     }
