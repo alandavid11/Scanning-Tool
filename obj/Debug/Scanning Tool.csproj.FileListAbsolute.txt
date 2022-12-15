@@ -1,0 +1,11 @@
+C:\Users\AGloria\source\repos\Scanning Tool\bin\Debug\Scanning Tool.exe.config
+C:\Users\AGloria\source\repos\Scanning Tool\bin\Debug\Scanning Tool.exe
+C:\Users\AGloria\source\repos\Scanning Tool\bin\Debug\Scanning Tool.pdb
+C:\Users\AGloria\source\repos\Scanning Tool\obj\Debug\Scanning Tool.csproj.AssemblyReference.cache
+C:\Users\AGloria\source\repos\Scanning Tool\obj\Debug\Scanning Tool.csproj.SuggestedBindingRedirects.cache
+C:\Users\AGloria\source\repos\Scanning Tool\obj\Debug\Scanning_Tool.Form1.resources
+C:\Users\AGloria\source\repos\Scanning Tool\obj\Debug\Scanning_Tool.Properties.Resources.resources
+C:\Users\AGloria\source\repos\Scanning Tool\obj\Debug\Scanning Tool.csproj.GenerateResource.cache
+C:\Users\AGloria\source\repos\Scanning Tool\obj\Debug\Scanning Tool.csproj.CoreCompileInputs.cache
+C:\Users\AGloria\source\repos\Scanning Tool\obj\Debug\Scanning Tool.exe
+C:\Users\AGloria\source\repos\Scanning Tool\obj\Debug\Scanning Tool.pdb
