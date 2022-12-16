@@ -9,3 +9,7 @@ C:\Users\AGloria\source\repos\Scanning Tool\obj\Debug\Scanning Tool.csproj.Gener
 C:\Users\AGloria\source\repos\Scanning Tool\obj\Debug\Scanning Tool.csproj.CoreCompileInputs.cache
 C:\Users\AGloria\source\repos\Scanning Tool\obj\Debug\Scanning Tool.exe
 C:\Users\AGloria\source\repos\Scanning Tool\obj\Debug\Scanning Tool.pdb
+C:\Users\AGloria\source\repos\Scanning Tool\bin\Debug\Scanning Tool.exe.manifest
+C:\Users\AGloria\source\repos\Scanning Tool\bin\Debug\Scanning Tool.application
+C:\Users\AGloria\source\repos\Scanning Tool\obj\Debug\Scanning Tool.exe.manifest
+C:\Users\AGloria\source\repos\Scanning Tool\obj\Debug\Scanning Tool.application

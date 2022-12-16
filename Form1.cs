@@ -19,6 +19,8 @@ namespace Scanning_Tool
         public Form1()
         {
             InitializeComponent();
+            textBox2.Enabled = false;
+            textBox2.BackColor = Color.Gray;
             textBox3.Enabled = false;
             textBox3.BackColor = Color.Gray;
             textBox1.Enabled = false;
@@ -42,37 +44,37 @@ namespace Scanning_Tool
             label13.Hide();
             label14.Hide();
             label15.Hide();
+            label18.Hide();
             TimeUpdater();
             textBox2.Focus();
 
-            DateTime horaMinuto;
-            string primerTurno = "1er turno";
-            string segundoTurno = "2do turno";
-            string primerHoraRev;
-            string segundaHoraRev;
-            horaMinuto = DateTime.Now;
-            if ((horaMinuto.Hour >= 0) && (horaMinuto.Hour <= 17 && horaMinuto.Minute <= 59))
+      
+            if ((Globals.horaMinuto.Hour >= 0) && (Globals.horaMinuto.Hour <= 17 && Globals.horaMinuto.Minute <= 59))
             {
-                label16.Text = primerTurno;
-                primerHoraRev = "00:00:00";
-                segundaHoraRev = "17:59:00";
-                Console.WriteLine(horaMinuto);
+                label16.Text = Globals.primerTurno;
+                Globals.primerHoraRev = "00:00:00";
+                Globals.segundaHoraRev = "17:59:00";
             }
             else
             {
-                label16.Text = segundoTurno;
-                primerHoraRev = "18:00:00";
-                segundaHoraRev = " 23:59:59";
+                label16.Text = Globals.segundoTurno;
+                Globals.primerHoraRev = "18:00:00";
+                Globals.segundaHoraRev = " 23:59:59";
             }
 
 
             using (SqlConnection sqlCon = new SqlConnection(connectionString))
             {
                 sqlCon.Open();
-                SqlCommand cmd2 = new SqlCommand("SELECT COUNT(*) FROM Records WHERE date >= '" + DateTime.Now.ToString("yyyy-MM-dd") + " "+ primerHoraRev + "' and date <= '"+ DateTime.Now.ToString("yyyy-MM-dd") + " "+ segundaHoraRev +"'", sqlCon);
+                SqlCommand cmd2 = new SqlCommand("SELECT COUNT(*) FROM GM_12L WHERE date >= '" + DateTime.Now.ToString("yyyy-MM-dd") + " "+ Globals.primerHoraRev + "' and date <= '"+ DateTime.Now.ToString("yyyy-MM-dd") + " "+ Globals.segundaHoraRev +"' AND Linea = 'Linea 1'", sqlCon);
                 Int32 count = (Int32)cmd2.ExecuteScalar();
                 string NumReg = count.ToString();
+                SqlCommand cmd3 = new SqlCommand("SELECT COUNT(*) FROM GM_12L WHERE date >= '" + DateTime.Now.ToString("yyyy-MM-dd") + " " + Globals.primerHoraRev + "' and date <= '" + DateTime.Now.ToString("yyyy-MM-dd") + " " + Globals.segundaHoraRev + "' AND Linea = 'Linea 2'", sqlCon);
+                Int32 count2 = (Int32)cmd3.ExecuteScalar();
+                string NumReg2 = count2.ToString();
                 label10.Text = NumReg;
+                label21.Text = NumReg2;
+                
                 sqlCon.Close();
             }
 
@@ -82,6 +84,22 @@ namespace Scanning_Tool
         private void Form1_Load(object sender, EventArgs e)
         {
 
+        }
+
+        // Radio Button Linea 1
+        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        {
+            textBox2.Enabled = true;
+            textBox2.BackColor = Color.White;
+            textBox2.Focus();
+        }
+
+        // Radio Button Linea 2
+        private void radioButton2_CheckedChanged(object sender, EventArgs e)
+        {
+            textBox2.Enabled = true;
+            textBox2.BackColor = Color.White;
+            textBox2.Focus();
         }
 
         // Bearing Housing
@@ -100,7 +118,7 @@ namespace Scanning_Tool
                         using (SqlConnection sqlCon = new SqlConnection(connectionString))
                         {
                             sqlCon.Open();
-                            SqlCommand sqlDa = new SqlCommand("SELECT date FROM Records WHERE BearingHousing = '" + textBox2.Text + "' ", sqlCon);
+                            SqlCommand sqlDa = new SqlCommand("SELECT date FROM GM_12L WHERE BearingHousing = '" + textBox2.Text + "' ", sqlCon);
                             var existe = sqlDa.ExecuteScalar();
                             var result = (existe == null ? "FirstTime" : "Repetido");
 
@@ -114,8 +132,9 @@ namespace Scanning_Tool
                             else if (result == "Repetido")
                             {
                                 pictureBox10.Show();
-                                textBox2.SelectionStart = 0;
+                                textBox2.SelectionStart = textBox2.Text.Length;
                                 textBox2.SelectionLength = textBox2.Text.Length;
+                                textBox2.Focus();
                                 label12.Show();
                                 label12.Text = "Este Bearing Housing ya fue registrado en la base de datos el " + existe.ToString() + "";
                                 return;
@@ -170,7 +189,7 @@ namespace Scanning_Tool
                     using (SqlConnection sqlCon = new SqlConnection(connectionString))
                     {
                         sqlCon.Open();
-                        SqlCommand sqlDa = new SqlCommand("SELECT date FROM Records WHERE SW = '" + textBox3.Text + "' ", sqlCon);
+                        SqlCommand sqlDa = new SqlCommand("SELECT date FROM GM_12L WHERE SW = '" + textBox3.Text + "' ", sqlCon);
                         var existe = sqlDa.ExecuteScalar();
                         var result = (existe == null ? "FirstTime" : "Repetido");
 
@@ -179,6 +198,7 @@ namespace Scanning_Tool
                             pictureBox4.Show();
                             textBox1.Enabled = true;
                             textBox1.BackColor = Color.White;
+
                         }
                         else if (result == "Repetido")
                         {
@@ -205,9 +225,8 @@ namespace Scanning_Tool
             }
             else
             {
-              
-                    textBox1.Enabled = false;
-                    textBox1.BackColor = Color.Gray;
+                textBox1.Enabled = false;
+                textBox1.BackColor = Color.Gray;
            
             }
         }
@@ -231,7 +250,7 @@ namespace Scanning_Tool
                         using (SqlConnection sqlCon = new SqlConnection(connectionString))
                         {
                             sqlCon.Open();
-                            SqlCommand sqlDa = new SqlCommand("SELECT date FROM Records WHERE BearingCover = '" + textBox1.Text + "' ", sqlCon);
+                            SqlCommand sqlDa = new SqlCommand("SELECT date FROM GM_12L WHERE BearingCover = '" + textBox1.Text + "' ", sqlCon);
                             var existe = sqlDa.ExecuteScalar();
                             var result = (existe == null ? "FirstTime" : "Repetido");
 
@@ -303,7 +322,7 @@ namespace Scanning_Tool
                         using (SqlConnection sqlCon = new SqlConnection(connectionString))
                         {
                             sqlCon.Open();
-                            SqlCommand sqlDa = new SqlCommand("SELECT date FROM Records WHERE CompressorWheel = '" + textBox4.Text + "' ", sqlCon);
+                            SqlCommand sqlDa = new SqlCommand("SELECT date FROM GM_12L WHERE CompressorWheel = '" + textBox4.Text + "' ", sqlCon);
                             var existe = sqlDa.ExecuteScalar();
                             var result = (existe == null ? "FirstTime" : "Repetido");
 
@@ -348,6 +367,7 @@ namespace Scanning_Tool
             }
         }
 
+        // Boton Borrar
         private void button1_Click(object sender, EventArgs e)
         {
             textBox1.Text = "";
@@ -358,6 +378,7 @@ namespace Scanning_Tool
             button2.BackColor = Color.Gray;
         }
 
+        // Boton enviar
         private void button2_Click(object sender, EventArgs e)
         {
             try
@@ -365,43 +386,71 @@ namespace Scanning_Tool
                 using (SqlConnection sqlCon = new SqlConnection(connectionString))
                 {
                     sqlCon.Open();
-                    SqlCommand cmd = new SqlCommand("RegisterRecord", sqlCon);
+                    SqlCommand cmd = new SqlCommand("Register", sqlCon);
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@date", DateTime.Now);
                     cmd.Parameters.AddWithValue("@BearingHousing", textBox2.Text.ToString());
                     cmd.Parameters.AddWithValue("@SW", textBox3.Text.ToString());
                     cmd.Parameters.AddWithValue("@BearingCover", textBox1.Text.ToString());
                     cmd.Parameters.AddWithValue("@CompressorWheel", textBox4.Text.ToString());
+                    if (radioButton1.Checked)
+                    {
+                        cmd.Parameters.AddWithValue("@Linea", "Linea 1");
+                        label18.Text = "Linea 1";
+                    }else if (radioButton2.Checked)
+                    {
+                        cmd.Parameters.AddWithValue("@Linea", "Linea 2");
+                        label18.Text = "Linea 2";
+                    }
                     cmd.ExecuteNonQuery();
-                    //cmd.CommandText = "SELECT COUNT(*) FROM Records WHERE date >= '" + DateTime.Now.ToString("yyyy-MM-dd") +" 00:00:00'";
-                    SqlCommand cmd2 = new SqlCommand("SELECT COUNT(*) FROM Records WHERE date >= '" + DateTime.Now.ToString("yyyy-MM-dd") + " 00:00:00'", sqlCon);
+                    SqlCommand cmd2 = new SqlCommand("SELECT COUNT(*) FROM GM_12L WHERE date >= '" + DateTime.Now.ToString("yyyy-MM-dd") + " " + Globals.primerHoraRev + "' AND date <= '" + DateTime.Now.ToString("yyyy-MM-dd") + " " + Globals.segundaHoraRev + "' AND Linea = 'Linea 1'", sqlCon);
                     Int32 count = (Int32) cmd2.ExecuteScalar();
                     string NumReg = count.ToString();
+                    SqlCommand cmd3 = new SqlCommand("SELECT COUNT(*) FROM GM_12L WHERE date >= '" + DateTime.Now.ToString("yyyy-MM-dd") + " " + Globals.primerHoraRev + "' AND date <= '" + DateTime.Now.ToString("yyyy-MM-dd") + " " + Globals.segundaHoraRev + "' AND Linea = 'Linea 2'", sqlCon);
+                    Int32 count2 = (Int32)cmd3.ExecuteScalar();
+                    string NumReg2 = count2.ToString();
                     label10.Text = NumReg;
+                    label21.Text = NumReg2;
                 }
 
                 textBox1.Text = "";
                 textBox2.Text = "";
                 textBox3.Text = "";
                 textBox4.Text = "";
+
                 label11.Visible = true;
                 System.Threading.Tasks.Task.Delay(2500).ContinueWith(_ =>
                 {
                     Invoke(new MethodInvoker(() => { label11.Visible = false; }));
                 });
+
+                label18.Visible = true;
+                System.Threading.Tasks.Task.Delay(2500).ContinueWith(_ =>
+                {
+                    Invoke(new MethodInvoker(() => { label18.Visible = false; }));
+                });
+
                 pictureBox12.Visible = true;
                 System.Threading.Tasks.Task.Delay(2500).ContinueWith(_ =>
                 {
                     Invoke(new MethodInvoker(() => { pictureBox12.Visible = false; }));
                 });
+
                 pictureBox13.Visible = true;
                 System.Threading.Tasks.Task.Delay(2500).ContinueWith(_ =>
                 {
                     Invoke(new MethodInvoker(() => { pictureBox13.Visible = false; }));
                 });
+
                 button2.Enabled = false;
                 button2.BackColor = Color.Gray;
-                textBox2.Focus();
+                if (radioButton1.Checked || radioButton2.Checked)
+                {
+                    textBox2.Enabled = true;
+                    textBox2.BackColor = Color.White;
+                    textBox2.Focus();
+                }
+                
             }
             catch (Exception ex)
             {
@@ -434,7 +483,6 @@ namespace Scanning_Tool
             if (e.KeyCode == Keys.Enter)
             {
                 e.SuppressKeyPress = true;
-                SendKeys.Send("{TAB}");
             }
         }
 
@@ -461,6 +509,35 @@ namespace Scanning_Tool
                 e.SuppressKeyPress = true;
             }
         }
+
+        private void radioButton2_KeyDown(object sender, KeyEventArgs e)
+        {
+            if ((e.KeyCode == Keys.Enter) || (e.KeyCode == Keys.Left) || (e.KeyCode == Keys.Right) || (e.KeyCode == Keys.Up) || (e.KeyCode == Keys.Down))
+            {
+                e.SuppressKeyPress = true;
+            }
+        }
+
+        private void radioButton1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if ((e.KeyCode == Keys.Enter) || (e.KeyCode == Keys.Left) || (e.KeyCode == Keys.Right) || (e.KeyCode == Keys.Up) || (e.KeyCode == Keys.Down))
+            {
+                e.SuppressKeyPress = true;
+            }
+        }
+
+
+    }
+
+    // MARK - Globales de hora
+    static class Globals
+    {
+        public static DateTime horaMinuto = DateTime.Now;
+        public static string primerTurno = "1er turno";
+        public static string segundoTurno = "2do turno";
+        public static string primerHoraRev;
+        public static string segundaHoraRev;
+   
     }
 
     // MARK - Poner placeholder en los textbox
