@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <asmv1:assembly xsi:schemaLocation="urn:schemas-microsoft-com:asm.v1 assembly.adaptive.xsd" manifestVersion="1.0" xmlns:asmv1="urn:schemas-microsoft-com:asm.v1" xmlns="urn:schemas-microsoft-com:asm.v2" xmlns:asmv2="urn:schemas-microsoft-com:asm.v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:co.v1="urn:schemas-microsoft-com:clickonce.v1" xmlns:asmv3="urn:schemas-microsoft-com:asm.v3" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" xmlns:co.v2="urn:schemas-microsoft-com:clickonce.v2">
-  <asmv1:assemblyIdentity name="Scanning Tool.exe" version="1.0.0.2" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
-  <description asmv2:iconFile="qr-code-scan-icon.ico" xmlns="urn:schemas-microsoft-com:asm.v1" />
+  <asmv1:assemblyIdentity name="Scanning Tool.exe" version="1.0.0.8" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
+  <description asmv2:iconFile="qr-code-scan-icon-_1_.ico" xmlns="urn:schemas-microsoft-com:asm.v1" />
   <application />
   <entryPoint>
     <assemblyIdentity name="Scanning Tool" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
@@ -43,14 +43,26 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Scanning Tool.exe" size="773048">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Scanning Tool.exe" size="830904">
       <assemblyIdentity name="Scanning Tool" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>wh08Abfi3ZuTSxxrgHUgp32LZ+7vcboFye9sSMjyKO4=</dsig:DigestValue>
+        <dsig:DigestValue>+ABI54fZGKcHNcVAGepwcLwb3QYi94NcYrg/kBAkLI0=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="es-MX\Scanning Tool.resources.dll" size="287232">
+      <assemblyIdentity name="Scanning Tool.resources" version="1.0.0.0" language="es-MX" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>8lvHCQOnlymPOSJGOI00uM/EcEIVDyk0sSKuv5zuCVk=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -61,6 +73,15 @@
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
       <dsig:DigestValue>k44xcAqRKhvw4uhj625eVzLQvXpIDWn3nsNaFysN/Wk=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="qr-code-scan-icon-_1_.ico" size="269374">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>osVYZkGkgRQRSHGbuB4RYFoW4UaXy6J7Zfki9K5B6hg=</dsig:DigestValue>
     </hash>
   </file>
   <file name="Scanning Tool.exe.config" size="189">

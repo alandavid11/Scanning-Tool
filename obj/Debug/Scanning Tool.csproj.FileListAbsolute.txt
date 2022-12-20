@@ -13,3 +13,6 @@ C:\Users\AGloria\source\repos\Scanning Tool\bin\Debug\Scanning Tool.exe.manifest
 C:\Users\AGloria\source\repos\Scanning Tool\bin\Debug\Scanning Tool.application
 C:\Users\AGloria\source\repos\Scanning Tool\obj\Debug\Scanning Tool.exe.manifest
 C:\Users\AGloria\source\repos\Scanning Tool\obj\Debug\Scanning Tool.application
+C:\Users\AGloria\source\repos\Scanning Tool\bin\Debug\es-MX\Scanning Tool.resources.dll
+C:\Users\AGloria\source\repos\Scanning Tool\obj\Debug\Scanning_Tool.Form1.es-MX.resources
+C:\Users\AGloria\source\repos\Scanning Tool\obj\Debug\es-MX\Scanning Tool.resources.dll
