@@ -894,6 +894,9 @@
   <data name="radioButton2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <data name="radioButton2.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
   <data name="radioButton2.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft JhengHei UI, 15pt, style=Bold</value>
   </data>

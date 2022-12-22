@@ -48,34 +48,52 @@ namespace Scanning_Tool
             TimeUpdater();
             textBox2.Focus();
 
-      
-            if ((Globals.horaMinuto.Hour >= 0) && (Globals.horaMinuto.Hour <= 17 && Globals.horaMinuto.Minute <= 59))
-            {
-                label16.Text = Globals.primerTurno;
-                Globals.primerHoraRev = "00:00:00";
-                Globals.segundaHoraRev = "17:59:00";
-            }
-            else
-            {
-                label16.Text = Globals.segundoTurno;
-                Globals.primerHoraRev = "18:00:00";
-                Globals.segundaHoraRev = " 23:59:59";
-            }
-
-
             using (SqlConnection sqlCon = new SqlConnection(connectionString))
             {
-                sqlCon.Open();
-                SqlCommand cmd2 = new SqlCommand("SELECT COUNT(*) FROM GM_12L WHERE date >= '" + DateTime.Now.ToString("yyyy-MM-dd") + " "+ Globals.primerHoraRev + "' and date <= '"+ DateTime.Now.ToString("yyyy-MM-dd") + " "+ Globals.segundaHoraRev +"' AND Linea = 'Linea 1'", sqlCon);
-                Int32 count = (Int32)cmd2.ExecuteScalar();
-                string NumReg = count.ToString();
-                SqlCommand cmd3 = new SqlCommand("SELECT COUNT(*) FROM GM_12L WHERE date >= '" + DateTime.Now.ToString("yyyy-MM-dd") + " " + Globals.primerHoraRev + "' and date <= '" + DateTime.Now.ToString("yyyy-MM-dd") + " " + Globals.segundaHoraRev + "' AND Linea = 'Linea 2'", sqlCon);
-                Int32 count2 = (Int32)cmd3.ExecuteScalar();
-                string NumReg2 = count2.ToString();
-                label10.Text = NumReg;
-                label21.Text = NumReg2;
                 
-                sqlCon.Close();
+                if (Globals.horaMinuto.Hour >= 18)
+                {
+                    sqlCon.Open();
+                    SqlCommand cmd2 = new SqlCommand("SELECT COUNT(*) FROM GM_12L WHERE date >= '" + DateTime.Now.ToString("yyyy-MM-dd") + " " + Globals.primerHoraRev + "' AND Linea = 'Linea 1'", sqlCon);
+                    Int32 count = (Int32)cmd2.ExecuteScalar();
+                    string NumReg = count.ToString();
+                    SqlCommand cmd3 = new SqlCommand("SELECT COUNT(*) FROM GM_12L WHERE date >= '" + DateTime.Now.ToString("yyyy-MM-dd") + " " + Globals.primerHoraRev + "' AND Linea = 'Linea 2'", sqlCon);
+                    Int32 count2 = (Int32)cmd3.ExecuteScalar();
+                    string NumReg2 = count2.ToString();
+                    label10.Text = NumReg;
+                    label21.Text = NumReg2;
+
+                    sqlCon.Close();
+
+                } else if (Globals.horaMinuto.Hour < 6)
+                {
+                    sqlCon.Open();
+                    SqlCommand cmd2 = new SqlCommand("SELECT COUNT(*) FROM GM_12L WHERE date >= '" + Globals.dia + " " + Globals.primerHoraRev + "' and date <= '" + DateTime.Now.ToString("yyyy-MM-dd") + " " + Globals.segundaHoraRev + "' AND Linea = 'Linea 1'", sqlCon);
+                    Int32 count = (Int32)cmd2.ExecuteScalar();
+                    string NumReg = count.ToString();
+                    SqlCommand cmd3 = new SqlCommand("SELECT COUNT(*) FROM GM_12L WHERE date >= '" + Globals.dia + " " + Globals.primerHoraRev + "' and date <= '" + DateTime.Now.ToString("yyyy-MM-dd") + " " + Globals.segundaHoraRev + "' AND Linea = 'Linea 2'", sqlCon);
+                    Int32 count2 = (Int32)cmd3.ExecuteScalar();
+                    string NumReg2 = count2.ToString();
+                    label10.Text = NumReg;
+                    label21.Text = NumReg2;
+
+                    sqlCon.Close();
+
+                } else
+                {
+                    sqlCon.Open();
+                    SqlCommand cmd2 = new SqlCommand("SELECT COUNT(*) FROM GM_12L WHERE date >= '" + DateTime.Now.ToString("yyyy-MM-dd") + " " + Globals.primerHoraRev + "' and date <= '" + DateTime.Now.ToString("yyyy-MM-dd") + " " + Globals.segundaHoraRev + "' AND Linea = 'Linea 1'", sqlCon);
+                    Int32 count = (Int32)cmd2.ExecuteScalar();
+                    string NumReg = count.ToString();
+                    SqlCommand cmd3 = new SqlCommand("SELECT COUNT(*) FROM GM_12L WHERE date >= '" + DateTime.Now.ToString("yyyy-MM-dd") + " " + Globals.primerHoraRev + "' and date <= '" + DateTime.Now.ToString("yyyy-MM-dd") + " " + Globals.segundaHoraRev + "' AND Linea = 'Linea 2'", sqlCon);
+                    Int32 count2 = (Int32)cmd3.ExecuteScalar();
+                    string NumReg2 = count2.ToString();
+                    label10.Text = NumReg;
+                    label21.Text = NumReg2;
+
+                    sqlCon.Close();
+                }
+                
             }
 
         }
@@ -403,14 +421,41 @@ namespace Scanning_Tool
                         label18.Text = "Linea 2";
                     }
                     cmd.ExecuteNonQuery();
-                    SqlCommand cmd2 = new SqlCommand("SELECT COUNT(*) FROM GM_12L WHERE date >= '" + DateTime.Now.ToString("yyyy-MM-dd") + " " + Globals.primerHoraRev + "' AND date <= '" + DateTime.Now.ToString("yyyy-MM-dd") + " " + Globals.segundaHoraRev + "' AND Linea = 'Linea 1'", sqlCon);
-                    Int32 count = (Int32) cmd2.ExecuteScalar();
-                    string NumReg = count.ToString();
-                    SqlCommand cmd3 = new SqlCommand("SELECT COUNT(*) FROM GM_12L WHERE date >= '" + DateTime.Now.ToString("yyyy-MM-dd") + " " + Globals.primerHoraRev + "' AND date <= '" + DateTime.Now.ToString("yyyy-MM-dd") + " " + Globals.segundaHoraRev + "' AND Linea = 'Linea 2'", sqlCon);
-                    Int32 count2 = (Int32)cmd3.ExecuteScalar();
-                    string NumReg2 = count2.ToString();
-                    label10.Text = NumReg;
-                    label21.Text = NumReg2;
+                    if (Globals.horaMinuto.Hour >= 18)
+                    {
+                        SqlCommand cmd2 = new SqlCommand("SELECT COUNT(*) FROM GM_12L WHERE date >= '" + DateTime.Now.ToString("yyyy-MM-dd") + " " + Globals.primerHoraRev + "' AND Linea = 'Linea 1'", sqlCon);
+                        Int32 count = (Int32)cmd2.ExecuteScalar();
+                        string NumReg = count.ToString();
+                        SqlCommand cmd3 = new SqlCommand("SELECT COUNT(*) FROM GM_12L WHERE date >= '" + DateTime.Now.ToString("yyyy-MM-dd") + " " + Globals.primerHoraRev + "' AND Linea = 'Linea 2'", sqlCon);
+                        Int32 count2 = (Int32)cmd3.ExecuteScalar();
+                        string NumReg2 = count2.ToString();
+                        label10.Text = NumReg;
+                        label21.Text = NumReg2;
+
+                    }
+                    else if (Globals.horaMinuto.Hour < 6)
+                    {
+                        SqlCommand cmd2 = new SqlCommand("SELECT COUNT(*) FROM GM_12L WHERE date >= '" + Globals.dia + " " + Globals.primerHoraRev + "' and date <= '" + DateTime.Now.ToString("yyyy-MM-dd") + " " + Globals.segundaHoraRev + "' AND Linea = 'Linea 1'", sqlCon);
+                        Int32 count = (Int32)cmd2.ExecuteScalar();
+                        string NumReg = count.ToString();
+                        SqlCommand cmd3 = new SqlCommand("SELECT COUNT(*) FROM GM_12L WHERE date >= '" + Globals.dia + " " + Globals.primerHoraRev + "' and date <= '" + DateTime.Now.ToString("yyyy-MM-dd") + " " + Globals.segundaHoraRev + "' AND Linea = 'Linea 2'", sqlCon);
+                        Int32 count2 = (Int32)cmd3.ExecuteScalar();
+                        string NumReg2 = count2.ToString();
+                        label10.Text = NumReg;
+                        label21.Text = NumReg2;
+
+                    }
+                    else
+                    {
+                        SqlCommand cmd2 = new SqlCommand("SELECT COUNT(*) FROM GM_12L WHERE date >= '" + DateTime.Now.ToString("yyyy-MM-dd") + " " + Globals.primerHoraRev + "' and date <= '" + DateTime.Now.ToString("yyyy-MM-dd") + " " + Globals.segundaHoraRev + "' AND Linea = 'Linea 1'", sqlCon);
+                        Int32 count = (Int32)cmd2.ExecuteScalar();
+                        string NumReg = count.ToString();
+                        SqlCommand cmd3 = new SqlCommand("SELECT COUNT(*) FROM GM_12L WHERE date >= '" + DateTime.Now.ToString("yyyy-MM-dd") + " " + Globals.primerHoraRev + "' and date <= '" + DateTime.Now.ToString("yyyy-MM-dd") + " " + Globals.segundaHoraRev + "' AND Linea = 'Linea 2'", sqlCon);
+                        Int32 count2 = (Int32)cmd3.ExecuteScalar();
+                        string NumReg2 = count2.ToString();
+                        label10.Text = NumReg;
+                        label21.Text = NumReg2;
+                    }
                 }
 
                 textBox1.Text = "";
@@ -466,6 +511,20 @@ namespace Scanning_Tool
             while (true)
             {
                 label8.Text = DateTime.Now.ToString();
+                if ((Globals.horaMinuto.Hour >= 0) && (Globals.horaMinuto.Hour <= 17 && Globals.horaMinuto.Minute <= 59))
+                {
+                    label16.Text = Globals.primerTurno;
+                    Globals.primerHoraRev = "06:00:00";
+                    Globals.segundaHoraRev = "17:59:59";
+                    Globals.dia = DateTime.Now.ToString("yyyy-MM-dd");
+                }
+                else
+                {
+                    label16.Text = Globals.segundoTurno;
+                    Globals.primerHoraRev = "18:00:00";
+                    Globals.segundaHoraRev = " 05:59:59";
+                    Globals.dia = DateTime.Today.AddDays(-1).ToString("yyyy-MM-dd");
+                }
                 await Task.Delay(1000);
             }
         }
@@ -533,6 +592,7 @@ namespace Scanning_Tool
     static class Globals
     {
         public static DateTime horaMinuto = DateTime.Now;
+        public static string dia;
         public static string primerTurno = "1er turno";
         public static string segundoTurno = "2do turno";
         public static string primerHoraRev;
