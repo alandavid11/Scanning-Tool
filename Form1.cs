@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Net.NetworkInformation;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -48,6 +49,16 @@ namespace Scanning_Tool
             TimeUpdater();
             textBox2.Focus();
 
+            // temporal
+            comboBox1.Hide();
+            label23.Hide();
+            label24.Hide();
+            label25.Hide();
+            label26.Hide();
+            // Obtener una hora anterior
+            label24.Text = "HxH pasado: "+ Globals.hxhLast.ToString("t") +"";
+            label26.Text = "HxH actual " + Globals.hxh.ToString("t") + "";
+
             using (SqlConnection sqlCon = new SqlConnection(connectionString))
             {
                 
@@ -60,6 +71,14 @@ namespace Scanning_Tool
                     SqlCommand cmd3 = new SqlCommand("SELECT COUNT(*) FROM GM_12L WHERE date >= '" + DateTime.Now.ToString("yyyy-MM-dd") + " " + Globals.primerHoraRev + "' AND Linea = 'Linea 2'", sqlCon);
                     Int32 count2 = (Int32)cmd3.ExecuteScalar();
                     string NumReg2 = count2.ToString();
+                    SqlCommand cmd4 = new SqlCommand("SELECT COUNT(*) FROM GM_12L WHERE date >= '" + Globals.hxhLast + "' AND date <= '" + Globals.hxh + "' AND Linea = 'Linea 1'", sqlCon);
+                    Int32 count4 = (Int32)cmd4.ExecuteScalar();
+                    string NumReg3 = count4.ToString();
+                    SqlCommand cmd5 = new SqlCommand("SELECT COUNT(*) FROM GM_12L WHERE date >= '" + Globals.hxh + "' AND Linea = 'Linea 1'", sqlCon);
+                    Int32 count5 = (Int32)cmd5.ExecuteScalar();
+                    string NumReg4 = count5.ToString();
+                    label25.Text = NumReg4;
+                    label23.Text = NumReg3;
                     label10.Text = NumReg;
                     label21.Text = NumReg2;
 
@@ -74,6 +93,14 @@ namespace Scanning_Tool
                     SqlCommand cmd3 = new SqlCommand("SELECT COUNT(*) FROM GM_12L WHERE date >= '" + Globals.dia + " " + Globals.primerHoraRev + "' and date <= '" + DateTime.Now.ToString("yyyy-MM-dd") + " " + Globals.segundaHoraRev + "' AND Linea = 'Linea 2'", sqlCon);
                     Int32 count2 = (Int32)cmd3.ExecuteScalar();
                     string NumReg2 = count2.ToString();
+                    SqlCommand cmd4 = new SqlCommand("SELECT COUNT(*) FROM GM_12L WHERE date >= '" + Globals.hxhLast + "' AND date <= '" + Globals.hxh + "' AND Linea = 'Linea 1'", sqlCon);
+                    Int32 count4 = (Int32)cmd4.ExecuteScalar();
+                    string NumReg3 = count4.ToString();
+                    SqlCommand cmd5 = new SqlCommand("SELECT COUNT(*) FROM GM_12L WHERE date >= '" + Globals.hxh + "' AND Linea = 'Linea 1'", sqlCon);
+                    Int32 count5 = (Int32)cmd5.ExecuteScalar();
+                    string NumReg4 = count5.ToString();
+                    label25.Text = NumReg4;
+                    label23.Text = NumReg3;
                     label10.Text = NumReg;
                     label21.Text = NumReg2;
 
@@ -88,6 +115,14 @@ namespace Scanning_Tool
                     SqlCommand cmd3 = new SqlCommand("SELECT COUNT(*) FROM GM_12L WHERE date >= '" + DateTime.Now.ToString("yyyy-MM-dd") + " " + Globals.primerHoraRev + "' and date <= '" + DateTime.Now.ToString("yyyy-MM-dd") + " " + Globals.segundaHoraRev + "' AND Linea = 'Linea 2'", sqlCon);
                     Int32 count2 = (Int32)cmd3.ExecuteScalar();
                     string NumReg2 = count2.ToString();
+                    SqlCommand cmd4 = new SqlCommand("SELECT COUNT(*) FROM GM_12L WHERE date >= '" + Globals.hxhLast + "' AND date <= '"+ Globals.hxh +"' AND Linea = 'Linea 1'", sqlCon);
+                    Int32 count4 = (Int32)cmd4.ExecuteScalar();
+                    string NumReg3 = count4.ToString();
+                    SqlCommand cmd5 = new SqlCommand("SELECT COUNT(*) FROM GM_12L WHERE date >= '" + Globals.hxh + "' AND Linea = 'Linea 1'", sqlCon);
+                    Int32 count5 = (Int32)cmd5.ExecuteScalar();
+                    string NumReg4 = count5.ToString();
+                    label25.Text = NumReg4;
+                    label23.Text = NumReg3;
                     label10.Text = NumReg;
                     label21.Text = NumReg2;
 
@@ -110,6 +145,15 @@ namespace Scanning_Tool
             textBox2.Enabled = true;
             textBox2.BackColor = Color.White;
             textBox2.Focus();
+            if (radioButton1.Checked)
+            {
+                radioButton1.ForeColor = Color.FromArgb(32, 191, 85);
+            }
+            else if (radioButton1.Checked == false)
+            {
+                radioButton1.ForeColor = Color.White;
+            }
+
         }
 
         // Radio Button Linea 2
@@ -118,6 +162,15 @@ namespace Scanning_Tool
             textBox2.Enabled = true;
             textBox2.BackColor = Color.White;
             textBox2.Focus();
+            if (radioButton2.Checked)
+            {
+                radioButton2.ForeColor = Color.FromArgb(32, 191, 85);
+
+            } else if (radioButton2.Checked == false)
+            {
+                radioButton2.ForeColor = Color.White;
+            }
+            
         }
 
         // Bearing Housing
@@ -347,9 +400,16 @@ namespace Scanning_Tool
                             if (result == "FirstTime")
                             {
                                 pictureBox6.Show();
-                                button2.Enabled = true;
-                                button2.BackColor = Color.FromArgb(17, 133, 61);
-                                button2.Focus();
+                                if (label22.Text == "Conectado a internet")
+                                {
+                                    button2.Enabled = true;
+                                    button2.BackColor = Color.FromArgb(17, 133, 61);
+                                    button2.Focus();
+                                } else if (label22.Text == "Desconectado de internet")
+                                {
+                                    MessageBox.Show("NO HAY CONEXIÓN A INTERNET", "Error en conexión ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                }
+                                
                             }
                             else if (result == "Repetido")
                             {
@@ -361,6 +421,7 @@ namespace Scanning_Tool
                                 return;
                             }
 
+                            sqlCon.Close();
                         }
 
 
@@ -423,39 +484,74 @@ namespace Scanning_Tool
                     cmd.ExecuteNonQuery();
                     if (Globals.horaMinuto.Hour >= 18)
                     {
+                        
                         SqlCommand cmd2 = new SqlCommand("SELECT COUNT(*) FROM GM_12L WHERE date >= '" + DateTime.Now.ToString("yyyy-MM-dd") + " " + Globals.primerHoraRev + "' AND Linea = 'Linea 1'", sqlCon);
                         Int32 count = (Int32)cmd2.ExecuteScalar();
                         string NumReg = count.ToString();
                         SqlCommand cmd3 = new SqlCommand("SELECT COUNT(*) FROM GM_12L WHERE date >= '" + DateTime.Now.ToString("yyyy-MM-dd") + " " + Globals.primerHoraRev + "' AND Linea = 'Linea 2'", sqlCon);
                         Int32 count2 = (Int32)cmd3.ExecuteScalar();
                         string NumReg2 = count2.ToString();
+                        SqlCommand cmd4 = new SqlCommand("SELECT COUNT(*) FROM GM_12L WHERE date >= '" + Globals.hxhLast + "' AND date <= '" + Globals.hxh + "' AND Linea = 'Linea 1'", sqlCon);
+                        Int32 count4 = (Int32)cmd4.ExecuteScalar();
+                        string NumReg3 = count4.ToString();
+                        SqlCommand cmd5 = new SqlCommand("SELECT COUNT(*) FROM GM_12L WHERE date >= '" + Globals.hxh + "' AND Linea = 'Linea 1'", sqlCon);
+                        Int32 count5 = (Int32)cmd5.ExecuteScalar();
+                        string NumReg4 = count5.ToString();
+                        label25.Text = NumReg4;
+                        label23.Text = NumReg3;
                         label10.Text = NumReg;
                         label21.Text = NumReg2;
+
+                        sqlCon.Close();
 
                     }
                     else if (Globals.horaMinuto.Hour < 6)
                     {
+                        
                         SqlCommand cmd2 = new SqlCommand("SELECT COUNT(*) FROM GM_12L WHERE date >= '" + Globals.dia + " " + Globals.primerHoraRev + "' and date <= '" + DateTime.Now.ToString("yyyy-MM-dd") + " " + Globals.segundaHoraRev + "' AND Linea = 'Linea 1'", sqlCon);
                         Int32 count = (Int32)cmd2.ExecuteScalar();
                         string NumReg = count.ToString();
                         SqlCommand cmd3 = new SqlCommand("SELECT COUNT(*) FROM GM_12L WHERE date >= '" + Globals.dia + " " + Globals.primerHoraRev + "' and date <= '" + DateTime.Now.ToString("yyyy-MM-dd") + " " + Globals.segundaHoraRev + "' AND Linea = 'Linea 2'", sqlCon);
                         Int32 count2 = (Int32)cmd3.ExecuteScalar();
                         string NumReg2 = count2.ToString();
+                        SqlCommand cmd4 = new SqlCommand("SELECT COUNT(*) FROM GM_12L WHERE date >= '" + Globals.hxhLast + "' AND date <= '" + Globals.hxh + "' AND Linea = 'Linea 1'", sqlCon);
+                        Int32 count4 = (Int32)cmd4.ExecuteScalar();
+                        string NumReg3 = count4.ToString();
+                        SqlCommand cmd5 = new SqlCommand("SELECT COUNT(*) FROM GM_12L WHERE date >= '" + Globals.hxh + "' AND Linea = 'Linea 1'", sqlCon);
+                        Int32 count5 = (Int32)cmd5.ExecuteScalar();
+                        string NumReg4 = count5.ToString();
+                        label25.Text = NumReg4;
+                        label23.Text = NumReg3;
                         label10.Text = NumReg;
                         label21.Text = NumReg2;
+
+                        sqlCon.Close();
 
                     }
                     else
                     {
+                        
                         SqlCommand cmd2 = new SqlCommand("SELECT COUNT(*) FROM GM_12L WHERE date >= '" + DateTime.Now.ToString("yyyy-MM-dd") + " " + Globals.primerHoraRev + "' and date <= '" + DateTime.Now.ToString("yyyy-MM-dd") + " " + Globals.segundaHoraRev + "' AND Linea = 'Linea 1'", sqlCon);
                         Int32 count = (Int32)cmd2.ExecuteScalar();
                         string NumReg = count.ToString();
                         SqlCommand cmd3 = new SqlCommand("SELECT COUNT(*) FROM GM_12L WHERE date >= '" + DateTime.Now.ToString("yyyy-MM-dd") + " " + Globals.primerHoraRev + "' and date <= '" + DateTime.Now.ToString("yyyy-MM-dd") + " " + Globals.segundaHoraRev + "' AND Linea = 'Linea 2'", sqlCon);
                         Int32 count2 = (Int32)cmd3.ExecuteScalar();
                         string NumReg2 = count2.ToString();
+                        SqlCommand cmd4 = new SqlCommand("SELECT COUNT(*) FROM GM_12L WHERE date >= '" + Globals.hxhLast + "' AND date <= '" + Globals.hxh + "' AND Linea = 'Linea 1'", sqlCon);
+                        Int32 count4 = (Int32)cmd4.ExecuteScalar();
+                        string NumReg3 = count4.ToString();
+                        SqlCommand cmd5 = new SqlCommand("SELECT COUNT(*) FROM GM_12L WHERE date >= '" + Globals.hxh + "' AND Linea = 'Linea 1'", sqlCon);
+                        Int32 count5 = (Int32)cmd5.ExecuteScalar();
+                        string NumReg4 = count5.ToString();
+                        label25.Text = NumReg4;
+                        label23.Text = NumReg3;
                         label10.Text = NumReg;
                         label21.Text = NumReg2;
+
+                        sqlCon.Close();
                     }
+
+                    
                 }
 
                 textBox1.Text = "";
@@ -510,6 +606,18 @@ namespace Scanning_Tool
         {
             while (true)
             {
+                bool con = NetworkInterface.GetIsNetworkAvailable();
+                if (con == true)
+                {
+                    label22.Text = "Conectado a internet";
+                    label22.BackColor = Color.FromArgb(0, 56, 108);
+                } else
+                {
+                    label22.Text = "Desconectado de internet";
+                    label22.BackColor = Color.Red;
+                }
+                label24.Text = "HxH pasado: " + Globals.hxhLast.ToString("t") + "";
+                label26.Text = "HxH actual " + Globals.hxh.ToString("t") + "";
                 label8.Text = DateTime.Now.ToString();
                 if ((Globals.horaMinuto.Hour >= 0) && (Globals.horaMinuto.Hour <= 17 && Globals.horaMinuto.Minute <= 59))
                 {
@@ -588,7 +696,7 @@ namespace Scanning_Tool
 
     }
 
-    // MARK - Globales de hora
+    // MARK: - Globales de hora
     static class Globals
     {
         public static DateTime horaMinuto = DateTime.Now;
@@ -597,52 +705,9 @@ namespace Scanning_Tool
         public static string segundoTurno = "2do turno";
         public static string primerHoraRev;
         public static string segundaHoraRev;
-   
+        public static DateTime src = DateTime.Now.AddHours(-1);
+        public static DateTime hxhLast = new DateTime(src.Year, src.Month, src.Day, src.Hour, 00, 00);
+        public static DateTime hxh = new DateTime(horaMinuto.Year, horaMinuto.Month, horaMinuto.Day, horaMinuto.Hour, 00, 00);
     }
 
-    // MARK - Poner placeholder en los textbox
-    class TxtHold: TextBox
-    {
-
-        public TxtHold()
-        {
-            this.Enter += new EventHandler(txt_Enter);
-            this.Leave += new EventHandler(txt_Leave);
-            base.ForeColor = Color.DimGray;
-
-        }
-
-        private string placeHolder;
-        [Description("Texto para el place holder")]
-        [Category("Alan Gloria Coding")]
-
-        public string PlaceHolder
-        {
-            get { return placeHolder; }
-            set { placeHolder = value; }
-        }
-
-        private void txt_Enter(object sender, EventArgs e)
-        {
-            TextBox txt = sender as TextBox;
-
-
-            if(txt.Text == placeHolder)
-            {
-                txt.Text = String.Empty;
-                txt.ForeColor = Color.Black;
-            }
-        }
-
-        private void txt_Leave(object sender, EventArgs e)
-        {
-            TextBox txt = sender as TextBox;
-
-            if(txt.Text == String.Empty)
-            {
-                txt.Text = placeHolder;
-                txt.ForeColor = Color.DimGray;
-            }
-        }
-    }
 }
