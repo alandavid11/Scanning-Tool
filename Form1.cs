@@ -50,11 +50,7 @@ namespace Scanning_Tool
             textBox2.Focus();
 
             // temporal
-            comboBox1.Hide();
-            label23.Hide();
-            label24.Hide();
-            label25.Hide();
-            label26.Hide();
+
             // Obtener una hora anterior
             label24.Text = "HxH pasado: "+ Globals.hxhLast.ToString("t") +"";
             label26.Text = "HxH actual " + Globals.hxh.ToString("t") + "";
@@ -87,13 +83,13 @@ namespace Scanning_Tool
                 } else if (Globals.horaMinuto.Hour < 6)
                 {
                     sqlCon.Open();
-                    SqlCommand cmd2 = new SqlCommand("SELECT COUNT(*) FROM GM_12L WHERE date >= '" + Globals.dia + " " + Globals.primerHoraRev + "' and date <= '" + DateTime.Now.ToString("yyyy-MM-dd") + " " + Globals.segundaHoraRev + "' AND Linea = 'Linea 1'", sqlCon);
+                    SqlCommand cmd2 = new SqlCommand("SELECT COUNT(*) FROM GM_12L WHERE date BETWEEN '" + Globals.dia + " " + Globals.primerHoraRev + "' and '" + DateTime.Now.ToString("yyyy-MM-dd") + " " + Globals.segundaHoraRev + "' AND Linea = 'Linea 1'", sqlCon);
                     Int32 count = (Int32)cmd2.ExecuteScalar();
                     string NumReg = count.ToString();
-                    SqlCommand cmd3 = new SqlCommand("SELECT COUNT(*) FROM GM_12L WHERE date >= '" + Globals.dia + " " + Globals.primerHoraRev + "' and date <= '" + DateTime.Now.ToString("yyyy-MM-dd") + " " + Globals.segundaHoraRev + "' AND Linea = 'Linea 2'", sqlCon);
+                    SqlCommand cmd3 = new SqlCommand("SELECT COUNT(*) FROM GM_12L WHERE date BETWEEN '" + Globals.dia + " " + Globals.primerHoraRev + "' and '" + DateTime.Now.ToString("yyyy-MM-dd") + " " + Globals.segundaHoraRev + "' AND Linea = 'Linea 2'", sqlCon);
                     Int32 count2 = (Int32)cmd3.ExecuteScalar();
                     string NumReg2 = count2.ToString();
-                    SqlCommand cmd4 = new SqlCommand("SELECT COUNT(*) FROM GM_12L WHERE date >= '" + Globals.hxhLast + "' AND date <= '" + Globals.hxh + "' AND Linea = 'Linea 1'", sqlCon);
+                    SqlCommand cmd4 = new SqlCommand("SELECT COUNT(*) FROM GM_12L WHERE date BETWEEN '" + Globals.hxhLast + "' AND '" + Globals.hxh + "' AND Linea = 'Linea 1'", sqlCon);
                     Int32 count4 = (Int32)cmd4.ExecuteScalar();
                     string NumReg3 = count4.ToString();
                     SqlCommand cmd5 = new SqlCommand("SELECT COUNT(*) FROM GM_12L WHERE date >= '" + Globals.hxh + "' AND Linea = 'Linea 1'", sqlCon);
@@ -508,7 +504,7 @@ namespace Scanning_Tool
                     else if (Globals.horaMinuto.Hour < 6)
                     {
                         
-                        SqlCommand cmd2 = new SqlCommand("SELECT COUNT(*) FROM GM_12L WHERE date >= '" + Globals.dia + " " + Globals.primerHoraRev + "' and date <= '" + DateTime.Now.ToString("yyyy-MM-dd") + " " + Globals.segundaHoraRev + "' AND Linea = 'Linea 1'", sqlCon);
+                        SqlCommand cmd2 = new SqlCommand("SELECT COUNT(*) FROM GM_12L WHERE date BETWEEN '" + Globals.dia + " " + Globals.primerHoraRev + "' AND '" + DateTime.Now.ToString("yyyy-MM-dd") + " " + Globals.segundaHoraRev + "' AND Linea = 'Linea 1'", sqlCon);
                         Int32 count = (Int32)cmd2.ExecuteScalar();
                         string NumReg = count.ToString();
                         SqlCommand cmd3 = new SqlCommand("SELECT COUNT(*) FROM GM_12L WHERE date >= '" + Globals.dia + " " + Globals.primerHoraRev + "' and date <= '" + DateTime.Now.ToString("yyyy-MM-dd") + " " + Globals.segundaHoraRev + "' AND Linea = 'Linea 2'", sqlCon);
@@ -619,7 +615,7 @@ namespace Scanning_Tool
                 label24.Text = "HxH pasado: " + Globals.hxhLast.ToString("t") + "";
                 label26.Text = "HxH actual " + Globals.hxh.ToString("t") + "";
                 label8.Text = DateTime.Now.ToString();
-                if ((Globals.horaMinuto.Hour >= 0) && (Globals.horaMinuto.Hour <= 17 && Globals.horaMinuto.Minute <= 59))
+                if ((Globals.horaMinuto.Hour >= 6) && (Globals.horaMinuto.Hour <= 17 && Globals.horaMinuto.Minute <= 59))
                 {
                     label16.Text = Globals.primerTurno;
                     Globals.primerHoraRev = "06:00:00";
