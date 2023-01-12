@@ -16,7 +16,7 @@ namespace Scanning_Tool
     public partial class Form1 : Form
     {
 
-        string connectionString = @"Data Source=10.42.6.29;Initial Catalog = ScanningTool;User ID =sa;Password=Password1";
+       string connectionString = @"*******************************************************************************";
         public Form1()
         {
             InitializeComponent();
